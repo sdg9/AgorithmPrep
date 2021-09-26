@@ -1,3 +1,11 @@
+/**
+ * Sorts in O(log n) time as it divides the array in half each search.
+ * @param array
+ * @param goal
+ * @param start
+ * @param end
+ * @returns
+ */
 export function binarySearch(
   array: number[],
   goal: number,

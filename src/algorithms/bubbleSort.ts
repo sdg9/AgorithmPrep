@@ -1,3 +1,9 @@
+/**
+ * Sorts in O(n^2) time due to the two for loops iterating the array.
+ * Closer to O(n) if array is nearly sorted already.
+ * @param array
+ * @returns
+ */
 export function bubbleSort(array: number[]) {
   let isDirty = false;
   for (let i = 0; i < array.length; i++) {
