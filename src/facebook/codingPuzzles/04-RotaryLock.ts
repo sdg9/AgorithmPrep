@@ -10,7 +10,7 @@ export function getMinCodeEntryTime(N, M, C) {
 
   let distance = 0;
   for (let i = 1; i < pattern.length; i++) {
-    const [low, high] = [pattern[i - 1], pattern[i]].sort();
+    const [low, high] = [pattern[i - 1], pattern[i]].sort((a, b) => a - b);
 
     const distance1 = high - low;
     const distance2 = maxNumber - high + low;
