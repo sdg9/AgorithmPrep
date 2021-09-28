@@ -9,27 +9,18 @@ export function getMaximumEatenDishCount(N, D, K) {
   const array = D;
   const historyLength = K;
 
-  const history = [];
+  // only passing 32/33 tests, something is too slow about this
+  const cache = new Map();
 
   let eat = 0;
-  let map = new Map<number, number>();
-  for (let i = 0; i < array.length; i++) {
-    // if (!history.includes(array[i])) {
-    if (map.get(array[i]) >= 1) {
-      // ignore
-    } else {
-      map.set(array[i], 1);
+  for (let i of array) {
+    if (!cache.has(i)) {
       eat += 1;
+      if (cache.size == historyLength) {
+        cache.delete(cache.keys().next().value);
+      }
+      cache.set(i, true);
     }
-
-    if (i >= historyLength) {
-      map.set(array[i + 1 - historyLength], 0);
-    }
-    // map.set(array[i], 1);
-    // history.push(array[i]);
-    // if (history.length > historyLength) {
-    // history.shift();
-    // }
   }
 
   return eat;
