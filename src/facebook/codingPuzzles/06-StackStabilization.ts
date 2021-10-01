@@ -7,59 +7,35 @@ export function getMinimumDeflatedDiscCount(N, R) {
   // Write your code here
   const stack: number[] = R;
 
-  // if Ri > i, cannot make stable by deflating
-  // const hasAnswer = stack.reduce((prev, curr, idx) => {
-  //   return prev && curr > idx;
-  // }, true);
-  // if (!hasAnswer) {
-  //   return -1;
-  // }
+  return loopSolution(stack);
+  // return reduceSolution(stack);
+}
 
-  // Faster w/ for loop due to early exit
-  for (let i = 0; i < stack.length; i++) {
+function loopSolution(stack) {
+  let change = 0;
+  for (let i = stack.length - 1; i >= 0; i--) {
     if (stack[i] <= i) {
-      console.log('Failed on i: ' + i);
       return -1;
     }
+    if (stack[i] >= stack[i + 1]) {
+      stack[i] = stack[i + 1] - 1;
+      change += 1;
+    }
   }
+  return change;
+}
 
-  const changed = new Set();
-  // TODO determine optimal pattern to reduce
-  const newStack = stack.map((value, i, array) => {
-    if (i == array.length - 1) {
-      // no need to ever reduce last #
-      return value;
+function reduceSolution(stack) {
+  const change = stack.slice(0).reduceRight((previous, current, i, array) => {
+    if (current <= i) {
+      array.splice(1);
+      return -1;
     }
-
-    if (value > array[i + 1]) {
-      changed.add(i);
-      return i == 0 ? 1 : array[i - 1] + 1;
-    } else {
-      return value;
+    if (current >= array[i + 1]) {
+      array[i] = array[i + 1] - 1;
+      return previous + 1;
     }
-
-    // if (i + 1 > value) {
-    //   changed.push(i);
-    //   return i == 0 ? 1 : array[i - 1] + 1;
-    // } else if (i < array.length && value > array[i]) {
-    // } else {
-    //   return value;
-    // }
-  });
-
-  // Iterate set?  Make sure i-1 < i for items in set?  If not change?
-
-  changed.forEach((i: number) => {
-    console.log('SEt i: ' + i);
-    if (newStack[i - 1] <= newStack[i]) {
-      // todo decrease i-1
-      newStack[i - 1] = newStack[i - 2] + 1;
-      changed.add(i - 1);
-    }
-  });
-
-  console.log('Changed: ', changed);
-  console.log('NewStack: ', newStack);
-
-  return changed.size;
+    return previous;
+  }, 0);
+  return change;
 }

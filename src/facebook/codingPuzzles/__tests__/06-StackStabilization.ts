@@ -1,6 +1,6 @@
 import { getMinimumDeflatedDiscCount } from '../06-StackStabilization';
 describe('06-StackStabilization', () => {
-  it.only('should work as intended case 1', () => {
+  it('should work as intended case 1', () => {
     expect(getMinimumDeflatedDiscCount(5, [2, 5, 3, 6, 5])).toBe(3);
   });
   it('should work as intended case 2', () => {
